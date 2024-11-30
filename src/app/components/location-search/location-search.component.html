@@ -1,0 +1,21 @@
+<tui-input
+  *tuiLet="filteredLocations$ | async as items"
+  [formControl]="locationInput"
+>
+  Search City @if (items?.length) {
+  <tui-data-list *tuiDataList>
+    <button
+      *ngFor="let item of items"
+      tuiOption
+      type="button"
+      [value]="item"
+      (click)="onClick(item)"
+    >
+      <span>{{ item }}</span>
+    </button>
+  </tui-data-list>
+  }
+</tui-input>
+@if (selectedCity$ | async; as city) {
+    <p>{{city}}</p>
+}
