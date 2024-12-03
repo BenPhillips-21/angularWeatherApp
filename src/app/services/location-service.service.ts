@@ -5,8 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class LocationServiceService {
-
-  private selectedCity = new BehaviorSubject<string>('')
+  private selectedCity = new BehaviorSubject<string>('London')
   selectedCity$ = this.selectedCity.asObservable();
   constructor() { }
 

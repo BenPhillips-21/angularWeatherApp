@@ -1,14 +1,16 @@
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TUI_DEFAULT_MATCHER, TuiLet } from '@taiga-ui/cdk';
 import { TuiDataList, TuiInitialsPipe } from '@taiga-ui/core';
 import { TuiAvatar } from '@taiga-ui/kit';
 import { TuiInputModule } from '@taiga-ui/legacy';
 import type { Observable } from 'rxjs';
-import { map, of, startWith, switchMap } from 'rxjs';
+import { map, of, startWith, switchMap, tap } from 'rxjs';
 import { majorCities } from '../../data';
 import { LocationServiceService } from '../../services/location-service.service';
+import { WeatherServiceService } from '../../services/weather-service.service';
+import { WeatherData } from '../../../types';
 
 @Component({
   selector: 'app-location-search',
@@ -30,9 +32,13 @@ import { LocationServiceService } from '../../services/location-service.service'
 })
 export class LocationSearchComponent {
   private locationService = inject(LocationServiceService)
+  private weatherService = inject(WeatherServiceService)
   protected readonly locationInput = new FormControl('');
 
   protected selectedCity$ = this.locationService.selectedCity$;
+  protected weatherData$ = this.weatherService.getObservationByCity().pipe(
+    tap(data => console.log('Component received weather data:', data))
+  );
 
   protected readonly filteredLocations$ = this.locationInput.valueChanges.pipe(
     startWith(''),

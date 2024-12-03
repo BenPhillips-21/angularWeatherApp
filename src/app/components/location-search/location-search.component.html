@@ -19,3 +19,7 @@
 @if (selectedCity$ | async; as city) {
     <p>{{city}}</p>
 }
+@if (weatherData$ | async; as weather) {
+  <h1>City: {{weather?.data?.[0]?.city_name}}</h1>
+  <p>Temperature: {{weather?.data?.[0]?.temp}}°C</p>
+}
