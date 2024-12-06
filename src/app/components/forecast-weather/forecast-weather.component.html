@@ -1,0 +1,7 @@
+@if (weatherForecast$ | async; as weather) {
+    <h1>Forecast</h1>
+    @for (weather of weather.data; track weather) {
+        <p>Day: {{weather.datetime}}</p>
+        <p>Temperature: {{weather.temp}}°C</p>
+    }
+  }

@@ -1,25 +1,21 @@
-<tui-input
-  *tuiLet="filteredLocations$ | async as items"
-  [formControl]="locationInput"
->
-  Search City @if (items?.length) {
-  <tui-data-list *tuiDataList>
-    <button
-      *ngFor="let item of items"
-      tuiOption
-      type="button"
-      [value]="item"
-      (click)="onClick(item)"
-    >
-      <span>{{ item }}</span>
-    </button>
-  </tui-data-list>
-  }
-</tui-input>
-@if (selectedCity$ | async; as city) {
-    <p>{{city}}</p>
-}
-@if (weatherData$ | async; as weather) {
-  <h1>City: {{weather?.data?.[0]?.city_name}}</h1>
-  <p>Temperature: {{weather?.data?.[0]?.temp}}°C</p>
-}
+<div class="search-container">
+  <tui-input
+    *tuiLet="filteredLocations$ | async as items"
+    [formControl]="locationInput"
+    class="tui-input"
+  >
+    Search City @if (items?.length) {
+    <tui-data-list *tuiDataList>
+      <button
+        *ngFor="let item of items"
+        tuiOption
+        type="button"
+        [value]="item"
+        (click)="onClick(item)"
+      >
+        <span>{{ item }}</span>
+      </button>
+    </tui-data-list>
+    }
+  </tui-input>
+</div>

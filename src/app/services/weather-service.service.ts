@@ -5,7 +5,7 @@ import { catchError, EMPTY, filter, Observable, switchMap, tap } from 'rxjs';
 import { WeatherData } from '../../types';
 import { API_KEY } from '../environment';
 
-const baseUrl = 'http://api.weatherbit.io/v2.0/current';
+const baseUrl = 'http://api.weatherbit.io/v2.0';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,21 @@ export class WeatherServiceService {
     return this.selectedCity$.pipe(
       filter(city => city.trim().length > 0),  
       switchMap(city => 
-        this.http.get<WeatherData>(`${baseUrl}?city=${encodeURIComponent(city)}&key=${API_KEY}`).pipe(
+        this.http.get<WeatherData>(`${baseUrl}/current?city=${encodeURIComponent(city)}&key=${API_KEY}`).pipe(
+          catchError(error => {
+            console.error(`Request failed for ${city}:`, error);
+            return EMPTY;
+          })
+        )
+      )
+    );
+  }
+
+  getForecast(): Observable<WeatherData> {
+    return this.selectedCity$.pipe(
+      filter(city => city.trim().length > 0),  
+      switchMap(city => 
+        this.http.get<WeatherData>(`${baseUrl}/forecast/daily?city=${encodeURIComponent(city)}&key=${API_KEY}`).pipe(
           catchError(error => {
             console.error(`Request failed for ${city}:`, error);
             return EMPTY;

@@ -1,0 +1,6 @@
+@if (weatherData$ | async; as weather) {
+  <div class="weather-data-container">
+      <h1>{{weather?.data?.[0]?.city_name}}</h1>
+      <app-current-weather-image [weatherDescription]="weather?.data?.[0]?.weather?.description"/>
+  </div>
+  }

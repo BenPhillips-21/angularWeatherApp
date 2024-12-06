@@ -1,0 +1,8 @@
+.search-container {
+    display: flex;
+    justify-content: center;
+}
+
+.tui-input {
+    width: 40%;
+}
