@@ -1,5 +1,11 @@
-import { Component, input, computed, OnInit, OnChanges, SimpleChange, SimpleChanges, Input } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
+import {
+  Component,
+  input,
+  OnChanges,
+  SimpleChanges,
+  signal,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-current-weather-image',
@@ -9,29 +15,36 @@ import { CommonModule } from '@angular/common';
   styleUrl: './current-weather-image.component.css',
 })
 export class CurrentWeatherImageComponent implements OnChanges {
-  private basePath = '/public/assets/'
-  @Input() weatherDescription: string = '';
+  private basePath = signal<string>('assets/animated/');
+  weatherLink = signal<string>(this.basePath());
 
-  weatherLink: string = this.basePath
+  weatherDescription = input.required<string>();
+  partOfDay = input.required<string>();
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.fetchWeatherImage()
+    this.fetchWeatherImage();
   }
 
   ngOnInit() {
-    this.fetchWeatherImage()
+    this.fetchWeatherImage();
   }
 
   fetchWeatherImage() {
-    switch (this.weatherDescription) {
-      case "Overcast Clouds":
-        this.weatherLink = this.basePath + "overcast";
+    const weatherNoSpaces = this.weatherDescription().split(' ').join('');
+    let weatherPath;
+
+    switch (this.weatherDescription()) {
+      case 'Overcast clouds':
+      case 'thunder':
+        weatherPath = `${weatherNoSpaces}.svg`;
         break;
-      case "Clear sky":
-        this.weatherLink = this.basePath + "sunny";
+      case 'Flurries':
+        weatherPath = `LightSnow${this.partOfDay()}.svg`;
         break;
       default:
-        this.weatherLink = this.basePath + "default";
+        weatherPath = `${weatherNoSpaces}${this.partOfDay()}.svg`;
     }
-}
+
+    this.weatherLink.set(this.basePath() + weatherPath);
+  }
 }

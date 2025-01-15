@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { LocationServiceService } from './location-service.service';
 import { HttpClient } from '@angular/common/http';
-import { catchError, EMPTY, filter, Observable, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, filter, map, Observable, switchMap, tap } from 'rxjs';
 import { WeatherData } from '../../types';
 import { API_KEY } from '../environment';
 

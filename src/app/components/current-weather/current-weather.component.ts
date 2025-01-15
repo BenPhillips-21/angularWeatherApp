@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { WeatherServiceService } from '../../services/weather-service.service';
-import { tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { TuiCardLarge } from '@taiga-ui/layout';
 import { TuiAppearance } from '@taiga-ui/core';
